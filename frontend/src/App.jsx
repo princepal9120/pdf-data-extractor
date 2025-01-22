@@ -1,5 +1,5 @@
 
-import PDFUploader from "./pages/Dashboard";
+import PDFUploader from "./pages/pdf-uploader";
 
 function App() {
     return (
