@@ -3,17 +3,17 @@ const cors = require("cors");
 const pdf = require("pdf-parse");
 const natural = require("natural");
 const compromise = require("compromise");
+const path = require('path')
 
 const app = express();
-
-// Configure CORS to allow requests from http://localhost:5173
 app.use(
     cors({
-        origin: "http://localhost:5173", // Allow requests from this origin
-        methods: ["GET", "POST"], // Allow only specific HTTP methods
-        credentials: true, // Allow cookies and credentials
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST"],
+        credentials: true,
     })
 );
+const _dirname = path.resolve();
 
 app.use(express.json({ limit: "10mb" }));
 
@@ -34,13 +34,11 @@ function extractNameAndAddress(text) {
     let name = "Name Not Found";
     let address = "Address Not Found";
 
-    // Extract name (assuming the first person's name is the target)
     const people = doc.people().out("array");
     if (people.length > 0) {
         name = people[0];
     }
 
-    // Extract address (look for common address keywords)
     const addressKeywords = ["street", "road", "avenue", "lane", "blvd", "city", "district"];
     const sentences = text.split(". ");
     for (const sentence of sentences) {
@@ -112,7 +110,7 @@ app.post("/extract", async (req, res) => {
         const email = extractEmail(extractedText);
         const role = extractRole(extractedText);
 
-        // Prepare response data
+
         const data = {
             Name: name,
             Address: address,
@@ -129,6 +127,11 @@ app.post("/extract", async (req, res) => {
         console.error("Error during extraction:", error);
         return res.status(500).json({ error: `Error during extraction: ${error.message}` });
     }
+});
+
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"))
 });
 
 // Start the server
