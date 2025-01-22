@@ -11,5 +11,12 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "compromise": "^14.14.4",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "natural": "^8.0.1",
+    "pdf-lib": "^1.17.1"
+  }
 }
