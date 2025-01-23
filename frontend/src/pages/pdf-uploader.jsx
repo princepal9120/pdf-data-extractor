@@ -23,7 +23,7 @@ const PDFUploader = () => {
       const base64 = event.target.result.split(",")[1];
 
       try {
-        const response = await axios.post("http://localhost:5000/extract", {
+        const response = await axios.post("https://pdf-data-extractor-tjdv.onrender.com/extract", {
           file: base64,
         });
         setData(response.data);
